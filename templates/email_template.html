@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Contact Message</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background-color: #f5f7fb;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .card {
+      max-width: 600px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 30px auto;
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(90deg, #2c3e50, #4ca1af);
+      color: white;
+      padding: 20px;
+    }
+    .content {
+      padding: 25px;
+    }
+    .content strong {
+      color: #2c3e50;
+    }
+    .message-box {
+      background: #f1f6ff;
+      border-left: 4px solid #4ca1af;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 6px;
+    }
+    .footer {
+      background: #fafafa;
+      padding: 15px;
+      font-size: 12px;
+      text-align: right;
+      color: #666;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h2>📩 New Contact Message</h2>
+      <p>A visitor submitted the contact form on your site.</p>
+    </div>
+    <div class="content">
+      <p><strong>👤 Name:</strong> {{ name }}</p>
+      <p><strong>📧 Email:</strong> {{ email }}</p>
+      <p><strong>📱 Phone:</strong> {{ phone }}</p>
+      <p><strong>📝 Subject:</strong> {{ subject }}</p>
+      <div class="message-box">
+        <strong>💬 Message:</strong>
+        <p>{{ message }}</p>
+      </div>
+    </div>
+    <div class="footer">
+      Received: {{ timestamp }}
+    </div>
+  </div>
+</body>
+</html>
