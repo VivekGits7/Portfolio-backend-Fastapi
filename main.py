@@ -6,10 +6,13 @@ from database import engine
 from models import contact_model
 from models import otp_model
 from dotenv import load_dotenv
+from utils.logger import get_logger
 
 load_dotenv()
 
 app = FastAPI(title="Portfolio API")
+
+logger = get_logger(__name__)
 
 # ✅ Include routers
 app.include_router(contact_router)
@@ -23,4 +26,5 @@ otp_model.Base.metadata.create_all(bind=engine)
 # ✅ Home endpoint for resume API
 @app.get("/")
 def home():
+    logger.info("Home Page")
     return {"message": "Welcome to the Resume Management API"}

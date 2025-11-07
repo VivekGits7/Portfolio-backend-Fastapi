@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from models.contact_create_model import ContactCreate
 from database import session
+from utils.logger import get_logger
 
 from services.contact_service import (
     create_contact_service,
@@ -12,6 +13,8 @@ from services.contact_service import (
 )
 
 router = APIRouter(tags=["Contact"])
+
+log = get_logger(__name__)
 
 # ✅ Dependency for database session
 def get_db():
@@ -26,25 +29,30 @@ def get_db():
 # ✅ Route to submit contact form
 @router.post("/contact")   #? https://locallhost:8000/contact
 async def create_contact_controller(contact: ContactCreate, db: Session = Depends(get_db)):
+    log.info(f"Received contact form submission from {contact.email}")
     return await create_contact_service(contact, db)
 
 # ✅ Route to get all contacts
 @router.get("/contacts")   #? https://locallhost:8000/contacts
 def get_contacts_controller(db: Session = Depends(get_db)):
+    log.info(f"Fetching all contacts")
     return get_contacts_service(db)
 
 # ✅ Route to get a contact by ID
 @router.get("/contacts/{contact_id}")   #? https://locallhost:8000/contacts/{contact_id}
 def get_contact_controller(contact_id: str, db: Session = Depends(get_db)):
+    log.info(f"Fetching contact by id {contact_id}")
     return get_contact_by_id_service(contact_id, db)
 
 # ✅ Route to delete all contacts
 @router.delete("/contacts")   #? https://locallhost:8000/contacts
 def delete_all_contacts_controller(db: Session = Depends(get_db)):
+    log.info(f"Deleting all contacts")
     return delete_contact_service(db)
 
 # ✅ Route to delete a contact by ID
 @router.delete("/contacts/{contact_id}")   #? https://locallhost:8000/contacts/{contact_id}
 def delete_contact_controller(contact_id: str, db: Session = Depends(get_db)):
+    log.info(f"Deleting contact by id {contact_id}")
     return delete_contact_by_id_service(contact_id, db)
 # -------------------End of contact endpoints-------------------------------

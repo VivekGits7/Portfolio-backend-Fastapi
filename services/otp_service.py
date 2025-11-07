@@ -4,8 +4,11 @@ from datetime import datetime, timezone
 from models.otp_model import OTPModel
 from utils.otp_utils import generate_otp, otp_expiry_time
 from utils.send_mail_utils import send_otp_email
+from utils.logger import get_logger
 
 OTP_RESEND_COOLDOWN_SECONDS = 60  # 1 minute
+
+logger = get_logger(__name__)
 
 async def send_otp_service(email: str, db: Session):
     existing_otp = db.query(OTPModel).filter(OTPModel.email == email).first()
@@ -33,6 +36,7 @@ async def send_otp_service(email: str, db: Session):
     db.commit()
 
     await send_otp_email(email, otp)
+    logger.info(f"OTP sent to {email}")
     return {"message": f"OTP sent successfully to {email}"}
 
 
@@ -53,4 +57,5 @@ def verify_otp_service(email: str, otp: str, db: Session):
 
     otp_record.is_verified = True
     db.commit()
+    logger.info(f"OTP verified for {email}")
     return {"message": "OTP verified successfully!"}
